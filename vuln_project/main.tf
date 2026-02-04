@@ -52,10 +52,16 @@ resource "aws_db_instance" "database" {
   instance_class       = "db.t2.micro"
   allocated_storage    = 20
   username             = "admin"
-  password             = "password123"  # VULN: Hardcoded password
-  publicly_accessible  = true           # VULN: Publicly accessible
+  password             = var.db_password  # VULN: Should use secrets manager
+  publicly_accessible  = true             # VULN: Publicly accessible
   skip_final_snapshot  = true
-  storage_encrypted    = false          # VULN: No encryption
+  storage_encrypted    = false            # VULN: No encryption
+}
+
+variable "db_password" {
+  description = "Database password"
+  type        = string
+  sensitive   = true
 }
 
 # VULN: EC2 instance without encryption

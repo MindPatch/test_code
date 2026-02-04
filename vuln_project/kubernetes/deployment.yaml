@@ -26,14 +26,14 @@ spec:
           allowPrivilegeEscalation: true
           readOnlyRootFilesystem: false
         # VULN: No resource limits
-        # VULN: Secrets in environment variables
+        # VULN: Secrets in environment variables (should use Secret resource)
         env:
         - name: DATABASE_PASSWORD
-          value: "supersecret123"
+          value: ""
         - name: API_KEY
-          value: "api-key-12345"
+          value: ""
         - name: AWS_SECRET_ACCESS_KEY
-          value: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+          value: ""
         # VULN: Mounting sensitive host paths
         volumeMounts:
         - name: docker-sock

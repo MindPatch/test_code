@@ -5,11 +5,11 @@ FROM python:latest
 
 # VULN: Running as root (no USER instruction)
 
-# VULN: Hardcoded secrets in environment variables
-ENV DATABASE_PASSWORD=admin123
-ENV API_KEY=sk-secret-key-12345
-ENV AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
-ENV AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+# VULN: Using ENV for sensitive data (should use secrets)
+ENV DATABASE_PASSWORD=""
+ENV API_KEY=""
+ENV AWS_ACCESS_KEY_ID=""
+ENV AWS_SECRET_ACCESS_KEY=""
 
 # VULN: ADD instead of COPY (can auto-extract archives, fetch URLs)
 ADD https://example.com/app.tar.gz /app/

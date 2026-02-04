@@ -8,6 +8,7 @@ Use this project to test:
 - **Semgrep** - Code-level vulnerabilities
 - **Qlty** - Code quality and security issues
 - **Checkov** - Infrastructure-as-code misconfigurations
+- **Trivy** - Container/dependency vulnerabilities
 
 ## Vulnerabilities Included
 
@@ -18,7 +19,6 @@ Use this project to test:
 - Insecure Deserialization (pickle)
 - Unsafe YAML loading
 - Path Traversal
-- Hardcoded secrets
 - Weak cryptography (MD5)
 
 ### JavaScript (`server.js`)
@@ -27,14 +27,12 @@ Use this project to test:
 - XSS (Cross-Site Scripting)
 - Eval injection
 - Prototype pollution
-- Hardcoded credentials
 - Weak crypto (DES)
 - Insecure random
 
 ### Dockerfile
 - Running as root
-- Unpinned base image
-- Hardcoded secrets in ENV
+- Unpinned base image (latest tag)
 - ADD instead of COPY
 - No HEALTHCHECK
 
@@ -42,7 +40,6 @@ Use this project to test:
 - Public S3 buckets
 - Open security groups (0.0.0.0/0)
 - Unencrypted RDS/EBS
-- Hardcoded passwords
 - Wildcard IAM permissions
 - Publicly accessible databases
 
@@ -51,9 +48,13 @@ Use this project to test:
 - Running as root
 - Host network/PID/IPC
 - Docker socket mounted
-- Secrets in environment variables
 - No resource limits
 - Permissive network policies
+
+### Dependencies
+- Vulnerable Python packages (`requirements.txt`)
+- Vulnerable npm packages (`package.json`)
+- Outdated base image (`Dockerfile.trivy`)
 
 ## Running the Scanners
 
@@ -66,6 +67,9 @@ checkov -d .
 
 # Qlty
 qlty check .
+
+# Trivy
+trivy fs .
 ```
 
 ## Warning

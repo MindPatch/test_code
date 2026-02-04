@@ -7,16 +7,16 @@ const crypto = require('crypto');
 
 const app = express();
 
-// VULN: Hardcoded credentials
-const DB_PASSWORD = "supersecret123";
-const JWT_SECRET = "jwt-secret-key-12345";
-const PRIVATE_KEY = "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA...";
+// VULN: Credentials from env (but env vars shown in code)
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const JWT_SECRET = process.env.JWT_SECRET;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 // VULN: Insecure database connection
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'root123',
+    password: process.env.DB_PASSWORD,
     database: 'myapp'
 });
 
