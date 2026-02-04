@@ -1,0 +1,10 @@
+# Vulnerable dependencies for testing
+flask==1.0.0
+pyyaml==5.1
+requests==2.20.0
+django==2.0.0
+jinja2==2.10
+paramiko==2.4.0
+cryptography==2.1.0
+pillow==5.0.0
+urllib3==1.24.0

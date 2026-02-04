@@ -1,0 +1,80 @@
+# Vulnerable Kubernetes manifests for testing Checkov
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vulnerable-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vulnerable-app
+  template:
+    metadata:
+      labels:
+        app: vulnerable-app
+    spec:
+      # VULN: Running as root
+      containers:
+      - name: app
+        image: myapp:latest  # VULN: Using latest tag
+        ports:
+        - containerPort: 8080
+        # VULN: Privileged container
+        securityContext:
+          privileged: true
+          runAsRoot: true
+          allowPrivilegeEscalation: true
+          readOnlyRootFilesystem: false
+        # VULN: No resource limits
+        # VULN: Secrets in environment variables
+        env:
+        - name: DATABASE_PASSWORD
+          value: "supersecret123"
+        - name: API_KEY
+          value: "api-key-12345"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+        # VULN: Mounting sensitive host paths
+        volumeMounts:
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
+        - name: etc
+          mountPath: /host-etc
+      # VULN: Host network enabled
+      hostNetwork: true
+      hostPID: true
+      hostIPC: true
+      volumes:
+      - name: docker-sock
+        hostPath:
+          path: /var/run/docker.sock
+      - name: etc
+        hostPath:
+          path: /etc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vulnerable-service
+spec:
+  type: LoadBalancer  # VULN: Exposed to internet
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: vulnerable-app
+---
+# VULN: Permissive network policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all
+spec:
+  podSelector: {}
+  ingress:
+  - {}
+  egress:
+  - {}
+  policyTypes:
+  - Ingress
+  - Egress
