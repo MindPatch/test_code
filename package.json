@@ -1,0 +1,24 @@
+{
+  "name": "vulnerable-project-example",
+  "version": "1.0.0",
+  "description": "WARNING: This package.json contains malicious dependencies for testing/detection purposes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@zapier/zapier-sdk": "0.15.6",
+    "zapier-platform-core": "18.0.3",
+    "@postman/tunnel-agent": "1.0.5",
+    "posthog-node": "3.0.3",
+    "@asyncapi/specs": "6.2.1",
+    "@ensdomains/ens-contracts": "1.6.1",
+    "@mongodb-js/mongodb-downloader": "2.1.2",
+    "statsd-client": "0.5.1",
+    "grunt-contrib-jshint": "4.0.2",
+    "passport-twitter-oauth2": "1.2.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-security": "3.0.1"
+  }
+}
